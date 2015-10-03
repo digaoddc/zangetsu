@@ -1,30 +1,27 @@
 module Zangetsu
   class Project
-    SOURCE_URL = 'http://punchsub.net/lista-de-animes'
     attr_accessor :id, :name, :episodes_number, :genres, :status, :quality, :last_update
 
-    def initialize(params)
-      self.id               =  params[0]
-      self.name             =  params[1]
-      self.episodes_number  =  params[6]
-      self.genres           =  params[4].split(',')
-      self.status           =  params[8]
-      self.quality          =  params[5]
-      self.last_update      =  params[7]
+    def initialize(args)
+      self.id               =  args.fetch(:id)
+      self.name             =  args.fetch(:name)
+      self.episodes_number  =  args.fetch(:episodes_number)
+      self.genres           =  args.fetch(:genres)
+      self.status           =  args.fetch(:status)
+      self.quality          =  args.fetch(:quality)
+      self.last_update      =  args.fetch(:last_update)
     end
 
-    def self.all
-      response_parsed.map do |anime_info|
-        Project.new(anime_info)
+    def self.all_by_driver(driver=nil)
+      drivers_list = Array.new(driver || Zangetsu::DRIVERS)
+
+      [].tap do |list_projects|
+        drivers_list.each do |driver|
+          driver.projects.map { |p| list_projects << Project.new(p) }
+        end
       end
     end
 
-    private
-
-    def self.response_parsed
-      resp        =  RestClient.get(SOURCE_URL)
-      animes_raw  =  JSON.parse(resp)
-    end
   end
 end
 

@@ -1,11 +1,15 @@
 require 'rest-client'
 
-require File.join(File.dirname(__FILE__), "zangetsu", "version")
-require File.join(File.dirname(__FILE__), "zangetsu", "projects")
-
 module Zangetsu
+  require_relative 'zangetsu/drivers/punchsub.rb'
+  require_relative 'zangetsu/projects.rb'
+  require_relative 'zangetsu/version.rb'
+
+  DRIVERS = [
+    Drivers::Punchsub
+  ]
+
   def self.available_projects
     Project.all
-    # projects.fetch
   end
 end
