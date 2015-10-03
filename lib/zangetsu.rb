@@ -5,7 +5,7 @@ require File.join(File.dirname(__FILE__), "zangetsu", "projects")
 
 module Zangetsu
   def self.available_projects
-    projects = Projects.new
-    projects.fetch
+    Project.all
+    # projects.fetch
   end
 end
