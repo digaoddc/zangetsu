@@ -3,17 +3,19 @@ module Zangetsu
     SOURCE_URL = 'http://punchsub.net/lista-de-animes'
     attr_accessor :id, :name, :episodes_number, :genres, :status, :quality, :last_update
 
+    def initialize(params)
+      self.id               =  params[0]
+      self.name             =  params[1]
+      self.episodes_number  =  params[6]
+      self.genres           =  params[4].split(',')
+      self.status           =  params[8]
+      self.quality          =  params[5]
+      self.last_update      =  params[7]
+    end
+
     def self.all
       response_parsed.map do |anime_info|
-        Project.new.tap do |p|
-          p.id               =  anime_info[0]
-          p.name             =  anime_info[1]
-          p.episodes_number  =  anime_info[6]
-          p.genres           =  anime_info[4].split(",")
-          p.status           =  anime_info[8]
-          p.quality          =  anime_info[5]
-          p.last_update      =  anime_info[7]
-        end
+        Project.new(anime_info)
       end
     end
 
