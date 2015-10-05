@@ -10,6 +10,6 @@ module Zangetsu
   ]
 
   def self.available_projects
-    Project.all
+    Project.all_by_driver
   end
 end
